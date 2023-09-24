@@ -3,25 +3,81 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-border: #1e90ff;
+  --color-link: #ff0000;
+  --menu-focus: #00ff0d;
+  --marquee-bg: #00eeff;
+  --marquee-text: rgb(0, 26, 255);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: white;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: black;
+}
+
+.menu-item {
+  box-shadow: 0 -1px var(--color-border);
+  @apply relative overflow-hidden text-center cursor-default;
+}
+
+.menu-item:last-child {
+  box-shadow: 0 1px var(--color-border), 0 -1px var(--color-border);
+}
+
+.menu-item-link {
+  @apply block relative cursor-pointer;
+}
+
+.menu-item-link:focus,
+.menu-item-link:focus-visible {
+  color: var(--menu-focus);
+}
+
+.menu-item-link:focus:not(:focus-visible) {
+  color: var(--color-link);
+}
+
+.marquee {
+  background: var(--marquee-bg);
+  transform: translate3d(0, 101%, 0);
+  @apply absolute top-0 left-0 overflow-hidden pointer-events-none w-full h-full;
+}
+
+.marquee-inner-wrap {
+  transform: translate3d(0, -101%, 0);
+  @apply w-full h-full;
+}
+.marquee-inner {
+  animation: marquee 15s linear infinite;
+  @apply h-full w-fit flex items-center relative will-change-transform;
+}
+
+@keyframes marquee {
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.menu-item-link,
+.marquee span {
+  padding: 1vh 1vw 0;
+  @apply whitespace-nowrap text-[6vw] font-semibold left-[1.2] uppercase;
+}
+
+.marquee span {
+  color: var(--marquee-text);
+  @apply text-center font-normal;
+}
+
+.marquee-img {
+  @apply w-[15vw] h-[70%] bg-center bg-cover rounded-[5vw] mx-[2vw];
+}
+.marquee-img .img {
+  @apply w-full h-full rounded-[5vw] object-cover overflow-hidden;
 }
